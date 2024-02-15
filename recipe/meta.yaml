@@ -1,37 +1,41 @@
-{% set version = "0.4.1" %}
+{% set name = "markdown-checklist" %}
+{% set version = "0.4.4" %}
 
 package:
-  name: markdown-checklist
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: markdown-checklist-0.4.1.tar.gz
-  url: https://github.com/FND/markdown-checklist/archive/v0.4.1.tar.gz
-  sha256: b5b07c6a364df845fafc03cacb862e8123bd76e223fd821282eddf8998d001d7
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/markdown-checklist-{{ version }}.tar.gz
+  sha256: 69c93850798b1e01cdc6fcd4a80592d941f669f6451bbf69c71a4ffd1142f849
 
 build:
   noarch: python
-  number: 1
-  script: python -m pip install --no-deps --ignore-installed .
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
 
 requirements:
   host:
+    - python >=3.7
+    - pytest
     - pip
-    - python
-    - setuptools
-    - markdown
   run:
-    - python
+    - python >=3.7
     - markdown
 
 test:
   imports:
     - markdown_checklist
+  commands:
+    - pip check
+  requires:
+    - pip
 
 about:
   home: https://github.com/FND/markdown-checklist
+  summary: Python Markdown extension for task lists with checkboxes
   license: MIT
-  summary: 'Python Markdown extension for task lists with checkboxes'
+  license_file: LICENSE
 
 extra:
   recipe-maintainers:
